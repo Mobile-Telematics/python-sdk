@@ -1,3 +1,4 @@
+
 # Damoov Admin SDK
 
 ![Damoov Logo](https://www.damoov.com/wp-content/uploads/2022/07/Damoov_logo_BIMI.svg)
@@ -46,3 +47,7 @@ If you have any feedback or need support, please contact us at [hellp@damoov.com
 ## License
 
 This SDK is distributed under the [MIT License](https://docs.damoov.com/docs/license).
+=======
+# python-admin-sdk
+Damoov's Python SDK enables seamless integration with our leading telematics platform. Harness the power of smartphones to capture and analyze driving behaviors. This repo provides tools to easily tap into driving insights, safety metrics, and performance data. Drive smarter with Damoov.
+>>>>>>> 9b69f1f6e9b31a77224642fc0420006df586c582
