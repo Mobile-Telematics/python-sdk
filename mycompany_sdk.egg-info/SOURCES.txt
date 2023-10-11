@@ -1,0 +1,9 @@
+setup.py
+damoov_admin/__init__.py
+damoov_admin/auth.py
+damoov_admin/statistics.py
+mycompany_sdk.egg-info/PKG-INFO
+mycompany_sdk.egg-info/SOURCES.txt
+mycompany_sdk.egg-info/dependency_links.txt
+mycompany_sdk.egg-info/requires.txt
+mycompany_sdk.egg-info/top_level.txt

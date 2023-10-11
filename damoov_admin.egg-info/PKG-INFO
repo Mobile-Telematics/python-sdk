@@ -1,0 +1,7 @@
+Metadata-Version: 2.1
+Name: damoov-admin
+Version: 0.1
+Summary: SDK for Damoov's APIs
+Author: Damoov
+Author-email: admin@damoov.com
+Keywords: damoov sdk

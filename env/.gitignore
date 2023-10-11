@@ -1,0 +1,27 @@
+# Python-specific
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+*.egg
+
+# Virtual Environment
+venv/
+
+# Development Tools
+.idea/
+*.swp
+*.swo
+*.swn
+*.log
+
+# Operating System Specific
+.DS_Store
+Thumbs.db
+
+# Distribution and Build
+dist/
+build/
+
+# Environment Variables and Secrets
+.env
