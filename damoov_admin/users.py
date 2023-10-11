@@ -120,7 +120,6 @@ class Users(BaseUsers):
             print(f'HTTP error occurred: {http_err}')  # Or handle it in some other way
             handle_response(response)
             return response
-        
 
     def delete_user(self, userid):
         headers = {

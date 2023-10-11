@@ -386,7 +386,7 @@ class Statistics(BaseStatistics):
             start_date_obj = end_date_obj - timedelta(days=14)
         return start_date_obj, end_date_obj
 
-    def LastUpdates(self, user_id):
+    def lastupdates(self, user_id):
         url = f"{self.BASE_URL}/Statistics/dates?UserId={user_id}"
         try:
             response = self.auth_client.get_with_retry(url, headers=self._get_headers())
@@ -398,7 +398,7 @@ class Statistics(BaseStatistics):
             return response
 
 
-    def UniqueTags(self, user_id, start_date, end_date):
+    def uniquetags(self, user_id, start_date, end_date):
         url = f"{self.BASE_URL}/Statistics/UniqueTags?UserId={user_id}&StartDate={start_date}&EndDate={end_date}"
         try:
             response = self.auth_client.get_with_retry(url, headers=self._get_headers())
