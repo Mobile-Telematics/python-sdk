@@ -1,7 +1,8 @@
 Metadata-Version: 2.1
 Name: damoov-admin
-Version: 0.1
+Version: 0.5
 Summary: SDK for Damoov's APIs
 Author: Damoov
 Author-email: admin@damoov.com
-Keywords: damoov sdk
+Keywords: damoov sdk telematics mobiletelematics safety driving safe-driving fleetmanagement fleet-management fleet driving-behavior driving-behaviour driving-behavior-analysis driving-behaviour-analysis driving-behavior-monitoring driving-behaviour-monitoring driving-behavior-score driving-behaviour-score driving-behavior-scoring driving-behaviour-scoring driving-behavior-analysis driving-behaviour-analysis driving-behavior-monitoring driving-behaviour-monitoring driving-behavior-score driving-behaviour-score driving-behavior-scoring driving-behaviour-scoring driving-behavior-analysis driving-behaviour-analysis driving-behavior-monitoring driving-behaviour-monitoring driving-behavior-score driving-behaviour-score driving-behavior-scoring driving-behaviour-scoring driving-behavior-analysis driving-behaviour-analysis driving-behavior-monitoring driving-behaviour-monitoring driving-behavior-score driving-behaviour-score driving-behavior-scoring driving-behaviour-scoring
+License-File: LICENSE

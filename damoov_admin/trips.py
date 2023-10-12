@@ -1,4 +1,5 @@
 # trips.py
+
 import requests
 from datetime import datetime, timedelta
 
@@ -45,7 +46,7 @@ class TripsModule:
 
 class Trips(BaseTrips):
     
-    def get_list_trip(self, user_id, 
+    def get_list_trips(self, user_id, 
                         start_date=None, end_date=None, 
                         start_date_timestamp_sec=None, end_date_timestamp_sec=None,
                         include_details=False, include_statistics=False, 

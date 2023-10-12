@@ -1,4 +1,5 @@
 # trips.py
+
 import requests
 from datetime import datetime, timedelta
 
@@ -45,63 +46,7 @@ class TripsModule:
 
 class Trips(BaseTrips):
     
-    # def get_short_trip_details(self,
-    #                            user_id, 
-    #                            start_date=None, end_date=None, 
-    #                            start_date_timestamp_sec=None, end_date_timestamp_sec=None, 
-    #                            tags_included=None, tags_included_operator=None, 
-    #                            tags_excluded=None, tags_excluded_operator=None, 
-    #                            vehicles=None, sort_by=None, 
-    #                            include_related=None, limit=None):
-    #     """
-    #     Retrieves short trip details for a specific user.
-        
-    #     :return: Trip details in JSON format.
-    #     """
-        
-    #     url = f"{self.BASE_URL}/short"
-        
-    #     payload = {
-    #         "Identifiers": {
-    #             "UserId": user_id
-    #         }
-    #     }
-        
-    #     # Using a separate method to adjust the date range
-    #     adjusted_values = adjust_date_range(start_date, end_date, start_date_timestamp_sec, end_date_timestamp_sec)
-    #     start_date, end_date, start_date_timestamp_sec, end_date_timestamp_sec = adjusted_values
-
-    #     if start_date and end_date:
-    #         payload["StartDate"] = start_date
-    #         payload["EndDate"] = end_date
-    #     elif start_date_timestamp_sec and end_date_timestamp_sec:
-    #         payload["StartDateTimestampSec"] = start_date_timestamp_sec
-    #         payload["EndDateTimestampSec"] = end_date_timestamp_sec
-
-    #         # Ensure tags_included is a list
-    #     if tags_included is not None and not isinstance(tags_included, list):
-    #         tags_included = [tags_included]
-
-    #     # Ensure tags_excluded is a list (if you also want to ensure this for tags_excluded)
-    #     if tags_excluded is not None and not isinstance(tags_excluded, list):
-    #         tags_excluded = [tags_excluded]
-
-
-    #     # Optional fields are added based on their existence
-    #     self._add_to_payload_if_exists(payload, "TagsIncluded", tags_included)
-    #     self._add_to_payload_if_exists(payload, "TagsIncludedOperator", tags_included_operator)
-    #     self._add_to_payload_if_exists(payload, "TagsExcluded", tags_excluded)
-    #     self._add_to_payload_if_exists(payload, "TagsExcludedOperator", tags_excluded_operator)
-    #     self._add_to_payload_if_exists(payload, "Vehicles", vehicles)
-    #     self._add_to_payload_if_exists(payload, "SortBy", sort_by)
-    #     if include_related is not None:
-    #         payload["IncludeRelated"] = include_related
-        
-    #     return self._fetch_trip_details(url, payload, limit)
-    
-    
-    
-    def get_list_trip(self, user_id, 
+    def get_list_trips(self, user_id, 
                         start_date=None, end_date=None, 
                         start_date_timestamp_sec=None, end_date_timestamp_sec=None,
                         include_details=False, include_statistics=False, 
@@ -164,7 +109,6 @@ class Trips(BaseTrips):
         self._add_to_payload_if_exists(payload, "SortBy", sort_by)
 
         return self._fetch_trip_details(url, payload, limit)
-    
     
     def get_trip_details(self, trip_id, user_id, 
                        include_details=False, include_statistics=False, 

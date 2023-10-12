@@ -6,6 +6,7 @@ from .auth import TelematicsAuth
 from .core import TelematicsCore
 from .utility import handle_response
 from requests.exceptions import HTTPError
+import json
 
 
 
@@ -452,6 +453,8 @@ class StatisticsResponse:
     def full_response(self):
         return self.data
     
+    def __str__(self):
+        return json.dumps(self.data, indent=4)
     
     # Add at the bottom of statistics.py
 def DamoovAuth(email, password):
