@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 
 from .auth import TelematicsAuth
 from .core import TelematicsCore
-from .utility import handle_response
+from .utility import handle_response, adjust_date_range
 from requests.exceptions import HTTPError
 import json
 
@@ -35,6 +35,8 @@ class StatisticsModule:
 
 class Statistics(BaseStatistics):
     def user_daily_statistics(self, user_id, start_date, end_date, tag=None):
+        adjusted_values = adjust_date_range(start_date, end_date)
+        start_date, end_date, start_date_timestamp_sec, end_date_timestamp_sec = adjusted_values
         url = f"{self.BASE_URL}/Statistics/daily?UserId={user_id}&StartDate={start_date}&EndDate={end_date}"
         if tag:
             url += f"&Tag={tag}"
@@ -47,6 +49,8 @@ class Statistics(BaseStatistics):
             return response
         
     def user_daily_ecoscore(self, user_id, start_date, end_date):
+        adjusted_values = adjust_date_range(start_date, end_date)
+        start_date, end_date, start_date_timestamp_sec, end_date_timestamp_sec = adjusted_values
         url = f"{self.BASE_URL}/Scores/eco/daily?UserId={user_id}&StartDate={start_date}&EndDate={end_date}"
         try:
             response = self.auth_client.get_with_retry(url, headers=self._get_headers())
@@ -57,6 +61,9 @@ class Statistics(BaseStatistics):
             return response
 
     def user_daily_safetyscore(self, user_id, start_date, end_date, tag=None):
+        adjusted_values = adjust_date_range(start_date, end_date)
+        start_date, end_date, start_date_timestamp_sec, end_date_timestamp_sec = adjusted_values
+        
         url = f"{self.BASE_URL}/Scores/safety/daily?UserId={user_id}&StartDate={start_date}&EndDate={end_date}"
         if tag:
             url += f"&Tag={tag}"
@@ -139,31 +146,10 @@ class Statistics(BaseStatistics):
     
     def entity_daily_ecoscore(self, start_date, end_date, tag=None, instance_id=None, app_id=None, company_id=None):
         
-        # Define both date and datetime formats
-        date_format = "%Y-%m-%d"
-        datetime_format = "%Y-%m-%dT%H:%M:%S"
-        
-        # Try parsing with datetime format, and if that fails, try with date format
-        try:
-            start_date_obj = datetime.strptime(start_date, datetime_format)
-            end_date_obj = datetime.strptime(end_date, datetime_format)
-        except ValueError:
-            try:
-                start_date_obj = datetime.strptime(start_date, date_format)
-                end_date_obj = datetime.strptime(end_date, date_format)
-            except ValueError:
-                return "Invalid date or datetime format provided."
-        
-        # Adjust date range if it exceeds 14 days
-        start_date_obj, end_date_obj = self._adjust_date_range(start_date_obj, end_date_obj)
 
-        # Inform the user if the date range has been adjusted
-        if (end_date_obj - start_date_obj).days == 14 and start_date != start_date_obj.strftime(date_format):
-            print("The specified date range exceeded the 14-day limit. Adjusted to retrieve data for the last 14 days.")
+        adjusted_values = adjust_date_range(start_date, end_date)
+        start_date, end_date, start_date_timestamp_sec, end_date_timestamp_sec = adjusted_values
 
-        # Update start_date and end_date with adjusted values
-        start_date = start_date_obj.strftime(date_format)
-        end_date = end_date_obj.strftime(date_format)
         
         # Check that exactly one of instance_id, app_id, or company_id is provided
         provided_params = [p for p in [instance_id, app_id, company_id] if p is not None]
@@ -198,32 +184,11 @@ class Statistics(BaseStatistics):
     
     def entity_daily_statistics(self, start_date, end_date, tag=None, instance_id=None, app_id=None, company_id=None):
         
-        # Define both date and datetime formats
-        date_format = "%Y-%m-%d"
-        datetime_format = "%Y-%m-%dT%H:%M:%S"
-        
-        # Try parsing with datetime format, and if that fails, try with date format
-        try:
-            start_date_obj = datetime.strptime(start_date, datetime_format)
-            end_date_obj = datetime.strptime(end_date, datetime_format)
-        except ValueError:
-            try:
-                start_date_obj = datetime.strptime(start_date, date_format)
-                end_date_obj = datetime.strptime(end_date, date_format)
-            except ValueError:
-                return "Invalid date or datetime format provided."
-        
+
         # Adjust date range if it exceeds 14 days
-        start_date_obj, end_date_obj = self._adjust_date_range(start_date_obj, end_date_obj)
+        adjusted_values = adjust_date_range(start_date, end_date)
+        start_date, end_date, start_date_timestamp_sec, end_date_timestamp_sec = adjusted_values
 
-        # Inform the user if the date range has been adjusted
-        if (end_date_obj - start_date_obj).days == 14 and start_date != start_date_obj.strftime(date_format):
-            print("The specified date range exceeded the 14-day limit. Adjusted to retrieve data for the last 14 days.")
-
-        # Update start_date and end_date with adjusted values
-        start_date = start_date_obj.strftime(date_format)
-        end_date = end_date_obj.strftime(date_format)
-        
         # Check that exactly one of instance_id, app_id, or company_id is provided
         provided_params = [p for p in [instance_id, app_id, company_id] if p is not None]
         
@@ -258,6 +223,11 @@ class Statistics(BaseStatistics):
         
 
     def entity_safety_score(self, start_date, end_date, tag=None, instance_id=None, app_id=None, company_id=None):
+       
+        # Adjust date range if it exceeds 14 days
+        adjusted_values = adjust_date_range(start_date, end_date)
+        start_date, end_date, start_date_timestamp_sec, end_date_timestamp_sec = adjusted_values        
+        
         # Check that exactly one of instance_id, app_id, or company_id is provided
         provided_params = [p for p in [instance_id, app_id, company_id] if p is not None]
         
@@ -322,32 +292,11 @@ class Statistics(BaseStatistics):
             return response
 
     def entity_daily_safetyscore(self, start_date, end_date, tag=None, instance_id=None, app_id=None, company_id=None):
-            
-        # Define both date and datetime formats
-        date_format = "%Y-%m-%d"
-        datetime_format = "%Y-%m-%dT%H:%M:%S"
         
-        # Try parsing with datetime format, and if that fails, try with date format
-        try:
-            start_date_obj = datetime.strptime(start_date, datetime_format)
-            end_date_obj = datetime.strptime(end_date, datetime_format)
-        except ValueError:
-            try:
-                start_date_obj = datetime.strptime(start_date, date_format)
-                end_date_obj = datetime.strptime(end_date, date_format)
-            except ValueError:
-                return "Invalid date or datetime format provided."
+        adjusted_values = adjust_date_range(start_date, end_date)
+        start_date, end_date, start_date_timestamp_sec, end_date_timestamp_sec = adjusted_values
         
-        # Adjust date range if it exceeds 14 days
-        start_date_obj, end_date_obj = self._adjust_date_range(start_date_obj, end_date_obj)
-
-        # Inform the user if the date range has been adjusted
-        if (end_date_obj - start_date_obj).days == 14 and start_date != start_date_obj.strftime(date_format):
-            print("The specified date range exceeded the 14-day limit. Adjusted to retrieve data for the last 14 days.")
-
-        # Update start_date and end_date with adjusted values
-        start_date = start_date_obj.strftime(date_format)
-        end_date = end_date_obj.strftime(date_format)
+        print(start_date, end_date)
 
         # Check that exactly one of instance_id, app_id, or company_id is provided
         provided_params = [p for p in [instance_id, app_id, company_id] if p is not None]

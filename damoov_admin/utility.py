@@ -56,8 +56,12 @@ def adjust_date_range(start_date=None, end_date=None, start_timestamp=None, end_
     
     if start_date and end_date:
         # Convert date strings to datetime objects
-        dt_start = datetime.datetime.strptime(start_date, '%Y-%m-%d')
-        dt_end = datetime.datetime.strptime(end_date, '%Y-%m-%d')
+        try:
+            dt_start = datetime.datetime.strptime(start_date, '%Y-%m-%d')
+            dt_end = datetime.datetime.strptime(end_date, '%Y-%m-%d')
+        except ValueError:
+            dt_start = datetime.datetime.strptime(start_date, '%Y-%m-%dT%H:%M:%S')
+            dt_end = datetime.datetime.strptime(end_date, '%Y-%m-%dT%H:%M:%S')
         
         # Ensure the difference is a maximum of 14 days
         if (dt_end - dt_start).days > 14:
