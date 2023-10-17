@@ -24,6 +24,8 @@ pip install damoov-admin
 
 ## Quick Start
 
+[Full Documentation](https://docs.damoov.com/docs/python-sdk)
+
 1. **Authentication:**
 
    ```python
@@ -50,7 +52,6 @@ This SDK is distributed under the [MIT License](https://docs.damoov.com/docs/lic
 =======
 # python-admin-sdk
 Damoov's Python SDK enables seamless integration with our leading telematics platform. Harness the power of smartphones to capture and analyze driving behaviors. This repo provides tools to easily tap into driving insights, safety metrics, and performance data. Drive smarter with Damoov.
->>>>>>> 9b69f1f6e9b31a77224642fc0420006df586c582
 
 
 # Modules
@@ -115,7 +116,7 @@ user_statistics=stats.user_daily_statistics(
 Response: 
 
 ```json
-"Result": [
+{"Result": [
 {
             "UserId": "2948a036-36f8-4f76-babd-0635874aa3er",
             "InstanceId": "",

@@ -114,6 +114,8 @@ class TelematicsAuth:
                 updated_headers = headers.copy() if headers else {}
                 updated_headers['authorization'] = f'Bearer {self.get_access_token()}'
                 response = self.session.post(url, headers=updated_headers, json=json, data=data)
+                print(json)
+                print(data)
             response.raise_for_status()
             return response
         except HTTPError as http_err:

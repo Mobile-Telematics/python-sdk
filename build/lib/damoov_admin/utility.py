@@ -4,48 +4,86 @@ from datetime import datetime, timedelta
 import datetime
 
 
-def handle_response(response):
-    
+from functools import wraps
+from requests.exceptions import HTTPError
+
+def handle_response(response, response_class=dict):
     if not response:
-        return {
-            'error': 'Verify the credential parameters in your request.'
-        }
+        return response_class({'error': 'Verify the credential parameters in your request.'})
         
     if response.status_code == 200:
         # If it's a 200 OK response
         data = response.json()
-        # ... process the data or return it
         return data
-
     elif response.status_code == 204:
-        # No content
         print("No content received from server. Please check your input.")
-        return None
-
-    # Handle other common status codes
+        return response_class({
+            "Result": [],
+            "Status": "Error",
+            "Title": "Bad Request"
+        })
     elif response.status_code == 400:
-        # Bad Request
         print("Bad request. Please check your input parameters.")
-        return None
+        return response_class({
+            "Result": [],
+            "Status": "Error",
+            "Title": "Bad Request"
+        })
     elif response.status_code == 401:
-        # Unauthorized
         print("Unauthorized. Please check your credentials.")
-        return None
+        return response_class({
+            "Result": [],
+            "Status": "Error",
+            "Title": "Bad Request"
+        })
     elif response.status_code == 403:
-        # Forbidden
         print("Access forbidden. You might not have the necessary permissions.")
-        return None
+        return response_class({
+            "Result": [],
+            "Status": "Error",
+            "Title": "Bad Request"
+        })
     elif response.status_code == 404:
-        # Not Found
         print("Resource not found. Please check your input parameters.")
-        return None
+        return response_class({
+            "Result": [],
+            "Status": "Error",
+            "Title": "Bad Request"
+        })
     elif response.status_code == 500:
-        # Internal Server Error
         print("Internal server error. Please try again later.")
-        return None
+        return response_class({
+            "Result": [],
+            "Status": "Error",
+            "Title": "Bad Request"
+        })
     else:
         print(f"Unexpected response from server with status code: {response.status_code}")
-        return None
+        return response_class({
+            "Result": [],
+            "Status": "Error",
+            "Title": "Bad Request"
+        })
+
+# def handle_api_errors(response_cls):
+#     def decorator(func):
+#         @wraps(func)
+#         def wrapper(*args, **kwargs):
+#             try:
+#                 response = func(*args, **kwargs)
+#                 if response.status != 200:
+#                     handle_response(response.data)
+#                 return response
+#             except Exception as e:
+#                 print(f"Unexpected error occurred: {str(e)}")
+#                 return response_cls({
+#                     "Result": [],
+#                     "Status": "Error",
+#                     "Title": "Unexpected Error"
+#                 })
+#         return wrapper
+#     return decorator
+
 
 
 # You can add other functionalities related to trips here.

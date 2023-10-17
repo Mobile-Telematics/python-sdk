@@ -45,8 +45,8 @@ class Statistics(BaseStatistics):
             return StatisticsResponse(response.json())
         except HTTPError as http_err:
             print(f'HTTP error occurred: {http_err}')  # Or handle it in some other way
-            handle_response(response)
-            return response
+            e_response = handle_response(response, StatisticsResponse) # Pass EngagementResponse as an argument
+            return e_response
         
     def user_daily_ecoscore(self, user_id, start_date, end_date):
         adjusted_values = adjust_date_range(start_date, end_date)
@@ -57,8 +57,8 @@ class Statistics(BaseStatistics):
             return StatisticsResponse(response.json())
         except HTTPError as http_err:
             print(f'HTTP error occurred: {http_err}')  # Or handle it in some other way
-            handle_response(response)
-            return response
+            e_response = handle_response(response, StatisticsResponse) # Pass EngagementResponse as an argument
+            return e_response
 
     def user_daily_safetyscore(self, user_id, start_date, end_date, tag=None):
         adjusted_values = adjust_date_range(start_date, end_date)
@@ -72,8 +72,8 @@ class Statistics(BaseStatistics):
             return StatisticsResponse(response.json())
         except HTTPError as http_err:
             print(f'HTTP error occurred: {http_err}')  # Or handle it in some other way
-            handle_response(response)
-            return response
+            e_response = handle_response(response, StatisticsResponse) # Pass EngagementResponse as an argument
+            return e_response
     
     def user_accumulated_statistics(self, user_id, start_date, end_date, tag=None):
         url = f"{self.BASE_URL}/Statistics?UserId={user_id}&StartDate={start_date}&EndDate={end_date}"
@@ -84,8 +84,8 @@ class Statistics(BaseStatistics):
             return StatisticsResponse(response.json())
         except HTTPError as http_err:
             print(f'HTTP error occurred: {http_err}')  # Or handle it in some other way
-            handle_response(response)
-            return response
+            e_response = handle_response(response, StatisticsResponse) # Pass EngagementResponse as an argument
+            return e_response
 
     def user_accumulated_ecoscore(self, user_id, start_date, end_date):
         url = f"{self.BASE_URL}/Scores/eco?UserId={user_id}&StartDate={start_date}&EndDate={end_date}"
@@ -94,8 +94,8 @@ class Statistics(BaseStatistics):
             return StatisticsResponse(response.json())
         except HTTPError as http_err:
             print(f'HTTP error occurred: {http_err}')  # Or handle it in some other way
-            handle_response(response)
-            return response
+            e_response = handle_response(response, StatisticsResponse) # Pass EngagementResponse as an argument
+            return e_response
         
 
     def user_accumulated_safetyscore(self, user_id, start_date, end_date, tag=None):
@@ -107,8 +107,8 @@ class Statistics(BaseStatistics):
             return StatisticsResponse(response.json())
         except HTTPError as http_err:
             print(f'HTTP error occurred: {http_err}')  # Or handle it in some other way
-            handle_response(response)
-            return response
+            e_response = handle_response(response, StatisticsResponse) # Pass EngagementResponse as an argument
+            return e_response
         
     def entity_accumulated_ecoscore(self, start_date, end_date, tag=None, instance_id=None, app_id=None, company_id=None):
         # Check that exactly one of instance_id, app_id, or company_id is provided
@@ -140,8 +140,8 @@ class Statistics(BaseStatistics):
             return StatisticsResponse(response.json())
         except HTTPError as http_err:
             print(f'HTTP error occurred: {http_err}')  # Or handle it in some other way
-            handle_response(response)
-            return response
+            e_response = handle_response(response, StatisticsResponse) # Pass EngagementResponse as an argument
+            return e_response
         
     
     def entity_daily_ecoscore(self, start_date, end_date, tag=None, instance_id=None, app_id=None, company_id=None):
@@ -179,8 +179,8 @@ class Statistics(BaseStatistics):
             return StatisticsResponse(response.json())
         except HTTPError as http_err:
             print(f'HTTP error occurred: {http_err}')  # Or handle it in some other way
-            handle_response(response)
-            return response
+            e_response = handle_response(response, StatisticsResponse) # Pass EngagementResponse as an argument
+            return e_response
     
     def entity_daily_statistics(self, start_date, end_date, tag=None, instance_id=None, app_id=None, company_id=None):
         
@@ -218,8 +218,8 @@ class Statistics(BaseStatistics):
             return StatisticsResponse(response.json())
         except HTTPError as http_err:
             print(f'HTTP error occurred: {http_err}')  # Or handle it in some other way
-            handle_response(response)
-            return response
+            e_response = handle_response(response, StatisticsResponse) # Pass EngagementResponse as an argument
+            return e_response
         
 
     def entity_safety_score(self, start_date, end_date, tag=None, instance_id=None, app_id=None, company_id=None):
@@ -256,8 +256,8 @@ class Statistics(BaseStatistics):
             return StatisticsResponse(response.json())
         except HTTPError as http_err:
             print(f'HTTP error occurred: {http_err}')  # Or handle it in some other way
-            handle_response(response)
-            return response
+            e_response = handle_response(response, StatisticsResponse) # Pass EngagementResponse as an argument
+            return e_response
 
     def entity_accumulated_statistics(self, start_date, end_date, tag=None, instance_id=None, app_id=None, company_id=None):
         # Check that exactly one of instance_id, app_id, or company_id is provided
@@ -288,8 +288,8 @@ class Statistics(BaseStatistics):
             return StatisticsResponse(response.json())
         except HTTPError as http_err:
             print(f'HTTP error occurred: {http_err}')  # Or handle it in some other way
-            handle_response(response)
-            return response
+            e_response = handle_response(response, StatisticsResponse) # Pass EngagementResponse as an argument
+            return e_response
 
     def entity_daily_safetyscore(self, start_date, end_date, tag=None, instance_id=None, app_id=None, company_id=None):
         
@@ -326,8 +326,8 @@ class Statistics(BaseStatistics):
             return StatisticsResponse(response.json())
         except HTTPError as http_err:
             print(f'HTTP error occurred: {http_err}')  # Or handle it in some other way
-            handle_response(response)
-            return response
+            e_response = handle_response(response, StatisticsResponse) # Pass EngagementResponse as an argument
+            return e_response
 
     def _adjust_date_range(self, start_date_obj, end_date_obj):
         """Adjusts the date range to a maximum of 14 days."""
@@ -344,8 +344,8 @@ class Statistics(BaseStatistics):
             return StatisticsResponse(response.json())
         except HTTPError as http_err:
             print(f'HTTP error occurred: {http_err}')  # Or handle it in some other way
-            handle_response(response)
-            return response
+            e_response = handle_response(response, StatisticsResponse) # Pass EngagementResponse as an argument
+            return e_response
 
 
     def uniquetags(self, user_id, start_date, end_date):
@@ -356,8 +356,8 @@ class Statistics(BaseStatistics):
             return StatisticsResponse(response.json())
         except HTTPError as http_err:
             print(f'HTTP error occurred: {http_err}')  # Or handle it in some other way
-            handle_response(response)
-            return response
+            e_response = handle_response(response, StatisticsResponse) # Pass EngagementResponse as an argument
+            return e_response
 
 class StatisticsResponse:
     def __init__(self, data):

@@ -149,15 +149,13 @@ class Trips(BaseTrips):
             return None
         except HTTPError as http_err:
             print(f'HTTP error occurred: {http_err}')  # Or handle it in some other way
-            handle_response(response)
-            return response    
+            e_response = handle_response(response, TripsResponse) # Pass EngagementResponse as an argument
+            return e_response    
 
-    def _fetch_trip_details(self, url, payload, limit):
+    def _fetch_trip_details(self, url, payload, limit=None):
         try:
             if limit:
                 payload["Paging"] = {"Count": limit, "IncludePagingInfo": False}
-                # print(payload)   # Just before making the API request in the _fetch_trip_details method
-
                 response = self.auth_client.post_with_retry(url, headers=self._get_headers(), json=payload)
                 data = handle_response(response)
                 if data is not None:
@@ -171,13 +169,9 @@ class Trips(BaseTrips):
 
             while True:
                 payload["Paging"]["Page"] = current_page
-                # print('Payload troubleshooting: ', current_page, ' >>> ', payload)   # Just before making the API request in the _fetch_trip_details method
-
                 response = self.auth_client.post_with_retry(url, headers=self._get_headers(), json=payload)
-
                 response.raise_for_status()  # Will raise an error for 4xx and 5xx responses.
                 trips_response = TripsResponse(response.json())
-                # print(f"Page {current_page} fetched. Has Next Page: {trips_response.paging_info.get('HasNextPage')}")
 
                 all_trips.extend(trips_response.trips)
 
@@ -189,10 +183,12 @@ class Trips(BaseTrips):
 
             trips_response.data['Result']['Trips'] = all_trips
             return trips_response
+
         except HTTPError as http_err:
             print(f'HTTP error occurred: {http_err}')  # Or handle it in some other way
-            handle_response(response)
-            return response
+            e_response = handle_response(response, TripsResponse) # Pass EngagementResponse as an argument
+            return e_response
+
         
 
     def _add_to_payload_if_exists(self, payload, key, value):
@@ -210,7 +206,7 @@ class TripsResponse:
     
     @property
     def trips(self):
-        trip = self.data.get('Result', {}).get('Trip', [])
+        trip = self.data.get('Result', {}).get('Trips', [])
         return trip if isinstance(trip, list) else []
     
     

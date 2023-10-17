@@ -4,6 +4,7 @@ setup.py
 damoov_admin/__init__.py
 damoov_admin/auth.py
 damoov_admin/core.py
+damoov_admin/engagement.py
 damoov_admin/statistics.py
 damoov_admin/trips.py
 damoov_admin/users.py
