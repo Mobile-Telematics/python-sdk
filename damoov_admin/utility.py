@@ -65,28 +65,6 @@ def handle_response(response, response_class=dict):
             "Title": "Bad Request"
         })
 
-# def handle_api_errors(response_cls):
-#     def decorator(func):
-#         @wraps(func)
-#         def wrapper(*args, **kwargs):
-#             try:
-#                 response = func(*args, **kwargs)
-#                 if response.status != 200:
-#                     handle_response(response.data)
-#                 return response
-#             except Exception as e:
-#                 print(f"Unexpected error occurred: {str(e)}")
-#                 return response_cls({
-#                     "Result": [],
-#                     "Status": "Error",
-#                     "Title": "Unexpected Error"
-#                 })
-#         return wrapper
-#     return decorator
-
-
-
-# You can add other functionalities related to trips here.
 def adjust_date_range(start_date=None, end_date=None, start_timestamp=None, end_timestamp=None):
     """Adjusts the date range to a maximum of 14 days."""
     

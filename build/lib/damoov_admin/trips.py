@@ -54,7 +54,7 @@ class Trips(BaseTrips):
                         tags_included=None, tags_included_operator=None,
                         tags_excluded=None, tags_excluded_operator=None, 
                         locale="EN", unit_system="Si", 
-                        vehicles=None, sort_by="StartDateUtc", 
+                        vehicles=None, sort_by="StartDateUtc_Desc", 
                         limit=None):
         """
         Retrieves trip details for a specific user.

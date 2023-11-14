@@ -361,18 +361,17 @@ class Statistics(BaseStatistics):
 
 class StatisticsResponse:
     def __init__(self, data):
-        self.data = data
+        self.data = data if isinstance(data, dict) else {}  # Ensure self.data is always a dictionary
 
     @property
     def result(self):
-        results = self.data.get('Result', [])
-        if isinstance(results, list) and len(results) == 1:
-            return results[0]
-        return results
+        return self.data.get('Result', []) if isinstance(self.data.get('Result', []), list) else []
+
 
     @property
     def status(self):
-        return self.data.get('Status',{})
+        return self.data.get('Status')
+
 
     @property
     def title(self):
@@ -380,27 +379,37 @@ class StatisticsResponse:
 
     @property
     def errors(self):
-        return self.data.get('Errors', [])
+        return self.data.get('Errors', []) if isinstance(self.data.get('Errors', []), list) else []
+
     
     @property
     def latest_trip_date(self):
-        return self.result.get('LatestTripDate', None)
+        if isinstance(self.result, dict):
+            return self.result.get('LatestTripDate')
+        return None
 
     @property
     def latest_scoring_date(self):
-        return self.result.get('LatestScoringDate', None)
+        if isinstance(self.result, dict):
+            return self.result.get('LatestScoringDate')
+        return None
     
     @property
     def tags_count(self):
-        return self.result.get('UniqueTagsCount', None)
+        if isinstance(self.result, dict):
+            return self.result.get('UniqueTagsCount')
+        return None
     
     @property
     def tags_list(self):
-        return self.result.get('UniqueTagsList', None)
+        if isinstance(self.result, dict):
+            return self.result.get('UniqueTagsList', [])
+        return []
     
     @property
     def full_response(self):
         return self.data
+
     
     def __str__(self):
         return json.dumps(self.data, indent=4)

@@ -54,7 +54,7 @@ class Trips(BaseTrips):
                         tags_included=None, tags_included_operator=None,
                         tags_excluded=None, tags_excluded_operator=None, 
                         locale="EN", unit_system="Si", 
-                        vehicles=None, sort_by="StartDateUtc", 
+                        vehicles=None, sort_by="StartDateUtc_Desc", 
                         limit=None):
         """
         Retrieves trip details for a specific user.
@@ -195,74 +195,82 @@ class Trips(BaseTrips):
         if value:
             payload[key] = value
 
-
 class TripsResponse:
     def __init__(self, data):
-        self.data = data
+        self.data = data if isinstance(data, dict) else {}
 
     @property
     def result(self):
-        return self.data.get('Result', {})
-    
+        # Safeguard in case 'Result' is not a dictionary
+        return self.data.get('Result', {}) if isinstance(self.data.get('Result', {}), dict) else {}
+
     @property
     def trips(self):
-        trip = self.data.get('Result', {}).get('Trips', [])
-        return trip if isinstance(trip, list) else []
-    
-    
+        # This already safeguards against 'Result' not being a dictionary and 'Trips' not being a list
+        trips = self.result.get('Trips', [])
+        return trips if isinstance(trips, list) else []
+
     @property
     def statistics(self):
-        trip = self.data.get('Result', {}).get('Trip', {})
+        # Similar safeguard as in 'trips'
+        trip = self.result.get('Trip', {})
         return trip.get('Statistics', {}) if isinstance(trip, dict) else {}
 
-    
     @property
     def details(self):
-        return self.data.get('Result', {}).get('Trip', {}).get('Data', {})
+        # Since 'Data' is nested within 'Trip', the same pattern applies here
+        return self.result.get('Trip', {}).get('Data', {})
 
     @property
     def transporttype(self):
-        return self.data.get('Result', {}).get('Trip', {}).get('Data', {}).get('TransportType', {})
+        # Assuming 'TransportType' is always a dictionary or should be an empty one if not present
+        return self.details.get('TransportType', {})
 
     @property
     def scores(self):
-        scores = self.data.get('Result', {}).get('Trip', {}).get('Scores', {})
-        return scores if isinstance(scores, dict) else {}
+        # Assuming 'Scores' is always a dictionary or should be an empty one if not present
+        return self.result.get('Trip', {}).get('Scores', {})
 
     @property
     def events(self):
-        return self.data.get('Result', {}).get('Trip', {}).get('Events', {})
+        # Assuming 'Events' is always a list or should be an empty one if not present
+        events = self.result.get('Trip', {}).get('Events', [])
+        return events if isinstance(events, list) else []
 
     @property
     def waypoints(self):
-        return self.data.get('Result', {}).get('Trip', {}).get('Waypoints', {})
+        # Assuming 'Waypoints' is always a list or should be an empty one if not present
+        waypoints = self.result.get('Trip', {}).get('Waypoints', [])
+        return waypoints if isinstance(waypoints, list) else []
 
     @property
     def paging_info(self):
-        return self.data.get('Result', {}).get('PagingInfo', {})
+        # Assuming 'PagingInfo' is always a dictionary or should be an empty one if not present
+        return self.result.get('PagingInfo', {})
 
     @property
     def status(self):
-        return self.data.get('Status',{})
-    
+        # 'Status' should be a singular value, not a list or dict
+        return self.data.get('Status')
+
     @property
     def datetime(self):
-        return self.data.get('Data',{})
-    
+        # Assuming 'Data' is always a dictionary or should be an empty one if not present
+        return self.data.get('Data', {})
+
     @property
     def trip_id(self):
-        return self.data.get('Result', {}).get('Id',None)
-    
+        # Assuming 'Id' is a singular value, not a list or dict
+        return self.result.get('Id')
+
     @property
     def full_response(self):
+        # The full response is just the data provided to the instance
         return self.data
-    
-    # @property
-    # def print_json(self):
-    #     print(json.dumps(self.data, indent=4))
-        
+
     def __str__(self):
         return json.dumps(self.data, indent=4)
+
 
 
     # Add at the bottom of statistics.py

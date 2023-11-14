@@ -4,6 +4,7 @@ import requests
 import threading
 import json
 import os
+import hashlib
 from requests.exceptions import HTTPError
 from .utility import handle_response
 
@@ -11,18 +12,37 @@ class TelematicsAuth:
     BASE_URL = "https://user.telematicssdk.com/v1/Auth"
     LOGIN_ENDPOINT = f"{BASE_URL}/Login"
     REFRESH_ENDPOINT = f"{BASE_URL}/RefreshToken"
-    TOKENS_FILE = "tokens.json"
+    TOKENS_FILE = os.path.join(os.path.expanduser("~"), '.damoov-config', 'token.json')
+
 
     def __init__(self, email, password):
         self.email = email
         self.password = password
+        self.lock = threading.Lock()
+        self.session = requests.Session()
+        
         self.access_token = None
         self.refresh_token = None
-        self.lock = threading.Lock()
-        self.session = requests.Session()  # Create a session instance
+        
+        # Use a hash of the email to generate a unique filename
+        self.email_hash = hashlib.md5(email.encode('utf-8')).hexdigest()
+        self.TOKENS_FILE = os.path.join(
+            os.path.expanduser("~"), 
+            '.damoov-config', 
+            f'token_{self.email_hash}.json'
+        )
+
         self._load_tokens()
 
+    def _ensure_directory_exists(self):
+        # Ensure the .damoov directory exists
+        directory = os.path.dirname(self.TOKENS_FILE)
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+
     def _save_tokens(self):
+        # Before saving, ensure the directory exists
+        self._ensure_directory_exists()
         with open(self.TOKENS_FILE, 'w') as f:
             json.dump({
                 "access_token": self.access_token,
@@ -35,6 +55,7 @@ class TelematicsAuth:
                 tokens = json.load(f)
                 self.access_token = tokens.get("access_token")
                 self.refresh_token = tokens.get("refresh_token")
+
 
     def login(self):
         payload = {
@@ -81,9 +102,19 @@ class TelematicsAuth:
 
     def get_access_token(self):
         with self.lock:
+            if not hasattr(self, 'access_token'):
+                self.access_token = None
+            
+            # If the access token isn't available, try loading it
+            if not self.access_token:
+                self._load_tokens()
+            
+            # If it still isn't available, then call login to get a fresh token
             if not self.access_token:
                 self.login()
+            
             return self.access_token
+
 
     def handle_401(self):
         with self.lock:
@@ -114,8 +145,6 @@ class TelematicsAuth:
                 updated_headers = headers.copy() if headers else {}
                 updated_headers['authorization'] = f'Bearer {self.get_access_token()}'
                 response = self.session.post(url, headers=updated_headers, json=json, data=data)
-                print(json)
-                print(data)
             response.raise_for_status()
             return response
         except HTTPError as http_err:

@@ -1,12 +1,14 @@
 Metadata-Version: 2.1
 Name: damoov-admin
-Version: 0.7.2
+Version: 0.7.6
 Summary: SDK for Damoov's APIs
 Author: Damoov
 Author-email: admin@damoov.com
 Keywords: damoov sdk telematics mobiletelematics safety driving safe-driving fleetmanagement fleet-management fleet driving-behavior driving-behaviour driving-behavior-analysis driving-behaviour-analysis driving-behavior-monitoring driving-behaviour-monitoring driving-behavior-score driving-behaviour-score driving-behavior-scoring driving-behaviour-scoring driving-behavior-analysis driving-behaviour-analysis driving-behavior-monitoring driving-behaviour-monitoring driving-behavior-score driving-behaviour-score driving-behavior-scoring driving-behaviour-scoring driving-behavior-analysis driving-behaviour-analysis driving-behavior-monitoring driving-behaviour-monitoring driving-behavior-score driving-behaviour-score driving-behavior-scoring driving-behaviour-scoring driving-behavior-analysis driving-behaviour-analysis driving-behavior-monitoring driving-behaviour-monitoring driving-behavior-score driving-behaviour-score driving-behavior-scoring driving-behaviour-scoring
 Description-Content-Type: text/markdown
 License-File: LICENSE
+Requires-Dist: requests
+Requires-Dist: sentry_sdk
 
 
 # Damoov-Admin Python SDK for Telematics API and Services
@@ -14,6 +16,23 @@ License-File: LICENSE
 ![Damoov Logo](https://www.damoov.com/wp-content/uploads/2022/07/Damoov_logo_BIMI.svg)
 
 **Damoov** is a leading telematics platform leveraging smartphone capabilities to capture and analyze driving behaviors. Our Python SDK is designed to enable developers to easily integrate and harness the power of Damoov's robust telematics data.
+
+**Changelog** 
+
+version 0.7.5 Release date 25/10/2023:
+* bug fix
+
+
+version 0.7.4 Release date 20/10/2023:
+
+Security Enhancements:
+JWT Token Storage:
+* Improved Security: Moved JWT token storage from a local file to secure place, providing an added layer of security.
+* Robust Token Handling: Enhanced the methods for saving and loading tokens.
+
+Other Updates:
+* Error Handling: Improved HTTP error handling across all API calls, ensuring smoother recovery and clear notifications on issues.
+* Code Optimization: Refactored and optimized various parts of the codebase for clarity and performance.
 
 ---
 
@@ -62,7 +81,6 @@ This SDK is distributed under the [MIT License](https://docs.damoov.com/docs/lic
 =======
 # python-admin-sdk
 Damoov's Python SDK enables seamless integration with our leading telematics platform. Harness the power of smartphones to capture and analyze driving behaviors. This repo provides tools to easily tap into driving insights, safety metrics, and performance data. Drive smarter with Damoov.
->>>>>>> 9b69f1f6e9b31a77224642fc0420006df586c582
 
 
 # Modules
@@ -127,7 +145,7 @@ user_statistics=stats.user_daily_statistics(
 Response: 
 
 ```json
-"Result": [
+{"Result": [
 {
             "UserId": "2948a036-36f8-4f76-babd-0635874aa3er",
             "InstanceId": "",

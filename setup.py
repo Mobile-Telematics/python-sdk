@@ -7,7 +7,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="damoov_admin",
-    version="0.7.2",
+    version="0.7.6",
     packages=find_packages(),
     install_requires=[
         "requests",

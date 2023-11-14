@@ -5,6 +5,23 @@
 
 **Damoov** is a leading telematics platform leveraging smartphone capabilities to capture and analyze driving behaviors. Our Python SDK is designed to enable developers to easily integrate and harness the power of Damoov's robust telematics data.
 
+**Changelog** 
+
+version 0.7.5 Release date 25/10/2023:
+* bug fix
+
+
+version 0.7.4 Release date 20/10/2023:
+
+Security Enhancements:
+JWT Token Storage:
+* Improved Security: Moved JWT token storage from a local file to secure place, providing an added layer of security.
+* Robust Token Handling: Enhanced the methods for saving and loading tokens.
+
+Other Updates:
+* Error Handling: Improved HTTP error handling across all API calls, ensuring smoother recovery and clear notifications on issues.
+* Code Optimization: Refactored and optimized various parts of the codebase for clarity and performance.
+
 ---
 
 ## Installation
